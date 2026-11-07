@@ -68,7 +68,7 @@ particlesJS("particles-js", {
     }
   },
   interactivity: {
-    detect_on: "canvas",
+    detect_on: "window",
     events: {
       onhover: {
         enable: true,
@@ -107,6 +107,12 @@ particlesJS("particles-js", {
   },
   retina_detect: true
 });
+
+// Respect reduced-motion: keep the particle network but stop it moving
+if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    window.pJSDom && window.pJSDom.length) {
+  window.pJSDom[0].pJS.particles.move.enable = false;
+}
 
 $(document).ready(function () {
   $(window).scroll(function () {

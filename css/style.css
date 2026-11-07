@@ -1,131 +1,597 @@
+/* ==========================================================================
+   Portfolio — black background with particles.js, Bootstrap for layout.
+   ========================================================================== */
+
+:root {
+  --bg: #000000;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --accent: #4da3ff;
+  --card-bg: rgba(12, 14, 18, 0.72);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-border-hover: rgba(77, 163, 255, 0.55);
+  --radius: 12px;
+  --nav-h: 64px;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Particles fill the screen behind every page and stay put while scrolling */
 #particles-js {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: #000000;
-  background-image: url('');
+  z-index: 0;
+  background-color: transparent; /* the ambient gradient shows through */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;
 }
 
+/* Everything else sits above the particles */
+/* ---------- Ambient gradient (built by js/background.js) ---------- */
+@property --bg-base { syntax: "<color>"; inherits: true; initial-value: #000000; }
+@property --bg-c1 { syntax: "<color>"; inherits: true; initial-value: #000000; }
+@property --bg-c2 { syntax: "<color>"; inherits: true; initial-value: #000000; }
+@property --bg-c3 { syntax: "<color>"; inherits: true; initial-value: #000000; }
+
+#bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg-base);
+  opacity: 0;
+  transition: opacity 1.2s ease, --bg-base 4s linear, --bg-c1 4s linear, --bg-c2 4s linear, --bg-c3 4s linear;
+}
+#bg-gradient.ready { opacity: 1; }
+
+#bg-gradient .blob {
+  position: absolute;
+  width: 80vmax;
+  height: 80vmax;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+#bg-gradient .b1 {
+  top: -30vmax;
+  left: -25vmax;
+  background: radial-gradient(circle at center, var(--bg-c1) 0%, transparent 62%);
+  animation: bg-drift-1 26s ease-in-out infinite alternate;
+}
+#bg-gradient .b2 {
+  bottom: -35vmax;
+  right: -25vmax;
+  background: radial-gradient(circle at center, var(--bg-c2) 0%, transparent 62%);
+  animation: bg-drift-2 32s ease-in-out infinite alternate;
+}
+#bg-gradient .b3 {
+  top: 20%;
+  left: 30%;
+  width: 60vmax;
+  height: 60vmax;
+  background: radial-gradient(circle at center, var(--bg-c3) 0%, transparent 60%);
+  animation: bg-pulse 9s ease-in-out infinite;
+}
+
+@keyframes bg-drift-1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(14vmax, 10vmax) scale(1.18); }
+}
+@keyframes bg-drift-2 {
+  from { transform: translate(0, 0) scale(1.1); }
+  to   { transform: translate(-16vmax, -8vmax) scale(0.95); }
+}
+@keyframes bg-pulse {
+  0%, 100% { transform: translate(-10%, -10%) scale(0.85); opacity: 0.45; }
+  50%      { transform: translate(-18%, 4%) scale(1.15); opacity: 0.95; }
+}
+
+#bg-gradient.paused .blob { animation-play-state: paused; }
+#bg-gradient.still .blob { animation: none; }
+#bg-gradient.still .b3 { opacity: 0.7; transform: translate(-10%, -10%); }
+@media (prefers-reduced-motion: reduce) {
+  #bg-gradient .blob { animation: none; }
+}
+
+.bg-note { white-space: normal; }
+
+/* No z-index here on purpose: a z-index would create a stacking context and
+   trap Bootstrap modals underneath their backdrop. Positioned content that
+   comes after #particles-js in the DOM already paints above it. */
+.page,
+.site-footer {
+  position: relative;
+}
+
+a { color: var(--accent); }
+a:hover { color: #8cc4ff; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -48px;
+  z-index: 2000;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: #000;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; color: #000; }
+
+/* ---------- Navbar ---------- */
 .navbar {
   background-color: transparent;
   padding: 10px;
   transition: background-color 0.5s ease-in-out;
 }
 
-.navbar.scrolled {
+.navbar.scrolled,
+.navbar:has(.navbar-collapse.show) {
   background-color: rgba(0, 0, 0, 0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .navbar .nav-link {
   color: #ffffff;
 }
 
+.navbar .nav-link.active {
+  color: var(--accent) !important;
+}
+
+/* ---------- Hero (home) ---------- */
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 24px) 16px 64px;
+}
+
 .hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
   color: #ffffff;
-}
-
-.hero-text-mod {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #ffffff;
-}
-
-.container-fluid-mod {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #ffffff;
-
+  max-width: 760px;
 }
 
 .hero-text h1 {
   font-size: 48px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
+}
+
+.hero-headline {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.hero-lede {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 0 auto 28px;
+  max-width: 620px;
 }
 
 .hero-text .btn {
   font-size: 18px;
   padding: 12px 24px;
+  margin: 6px;
 }
 
-body {
-  overflow-y: auto;
+.social-links {
+  margin-top: 20px;
+  font-size: 1.75rem;
 }
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-.wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.project-section {
-  padding: 80px 0;
+.social-links a {
   color: #ffffff;
+  margin: 0 10px;
+  transition: color 0.2s;
 }
+.social-links a:hover { color: var(--accent); }
 
-.container-fluid {
-  background-color: #000000;
+.scroll-cue {
+  display: inline-block;
+  margin-top: 36px;
+  color: var(--muted);
+  font-size: 1.75rem;
 }
-
-.project-preview {
-  cursor: pointer;
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue { animation: bob 2s ease-in-out infinite; }
 }
-
-.gallery {
-  margin: 20px;
-}
-
-.gallery img {
-  width: 200px;
-  height: auto;
-  transition: transform 0.3s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.1);
-}
-
-.spacer {
-  height: 2000px;
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
 }
 
 .profile-picture {
-  width: 150px; /* Adjust the size of the profile picture as needed */
+  width: 150px;
   height: 150px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid white;
+  margin-bottom: 20px;
 }
 .profile-picture img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* ---------- Generic content sections ---------- */
+.page-section {
+  padding: 72px 0;
+}
+
+.inner-page {
+  padding-top: calc(var(--nav-h) + 40px);
+  min-height: 100vh;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  color: var(--muted);
+  margin-bottom: 32px;
+  max-width: 680px;
+}
+
+.lead-text {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.lead-text p { margin-bottom: 0; }
+.lead-text p + p { margin-top: 1rem; }
+
+/* Translucent card so the particles show through */
+.glass-card {
+  height: 100%;
+  padding: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  transition: border-color 0.25s, transform 0.25s;
+}
+.glass-card:hover {
+  border-color: var(--card-border-hover);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glass-card:hover { transform: translateY(-3px); }
+}
+
+.glass-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 14px 0 10px;
+}
+.glass-card p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(77, 163, 255, 0.14);
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+/* Featured project cards */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.project-card .card-body-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 22px 22px;
+}
+.project-card h3 { margin-top: 0; }
+.project-card .project-links { margin-top: auto; padding-top: 14px; }
+
+/* Image / GIF slot with a visible placeholder until the file exists */
+.media-slot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 12px, rgba(77, 163, 255, 0.08) 12px 13px),
+    #0b0d11;
+  border-bottom: 1px solid var(--card-border);
+  overflow: hidden;
+}
+.media-slot img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-slot img[hidden] { display: none; }
+.media-slot .media-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Tech tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.tags li {
+  padding: 2px 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+/* ---------- Timeline (about) ---------- */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.timeline > li {
+  position: relative;
+  padding: 0 0 32px 36px;
+}
+.timeline > li:last-child { padding-bottom: 0; }
+.timeline > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #000;
+  border: 2px solid var(--accent);
+}
+.timeline > li.current::before { background: var(--accent); }
+
+.tl-when {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.timeline h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.tl-org {
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.timeline ul.bullets {
+  color: var(--muted);
+  padding-left: 1.1rem;
+  margin: 8px 0 0;
+}
+.timeline ul.bullets li { margin-bottom: 6px; }
+
+/* Awards / highlights */
+.award-badge {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.skill-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+/* ---------- Projects page ---------- */
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.container-fluid {
+  background-color: transparent;
+}
+
+.projects-heading {
+  padding-top: calc(var(--nav-h) + 40px);
+}
+
+.group-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 48px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--card-border);
+}
+
+.project-section {
+  margin: 24px 0;
+  padding: 24px;
+  color: #ffffff;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  transition: border-color 0.25s;
+}
+.project-section:hover { border-color: var(--card-border-hover); }
+
+.project-section p { color: var(--muted); }
+.project-section img,
+.project-section iframe { border-radius: 8px; }
+
+.project-preview {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.project-preview:hover { color: var(--accent); }
+
+.project-section .media-slot {
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+}
+
+/* Modals: dark to match the site */
+.modal-content {
+  background: #0e1116;
+  color: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+}
+.modal-header { border-bottom-color: var(--card-border); }
+.modal-title { font-weight: 600; }
+.modal-body { color: var(--muted); }
+.modal-body b { color: #ffffff; }
+.modal-body i { color: rgba(255, 255, 255, 0.85); }
+.modal-body ul { padding-left: 0; margin-bottom: 8px; }
+.modal-body img { border-radius: 8px; }
+.modal-body .media-slot { margin-bottom: 8px; border-radius: 8px; border: 1px solid var(--card-border); }
+.modal .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+.modal .close { color: #ffffff; text-shadow: none; opacity: 0.8; }
+.modal-backdrop.show { opacity: 0.8; }
+
+/* Video in a media slot (YouTube embed) */
+.media-slot.video-slot { aspect-ratio: 16 / 9; background: #000; }
+.media-slot iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Contact page ---------- */
+.contact-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 32px) 16px 48px;
+}
+.contact-card {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+.contact-card form { text-align: left; margin-top: 28px; }
+.contact-card .form-control {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 28px 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.6);
+}
+.site-footer a { color: rgba(255, 255, 255, 0.75); }
+.site-footer .social-links { font-size: 1.25rem; margin: 0 0 8px; }
+
+/* ---------- Scroll reveal (JS adds .js to <html>) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 575.98px) {
+  .hero-text h1 { font-size: 36px; }
+  .hero-headline { font-size: 1.1rem; }
+  .hero-text .btn { font-size: 16px; padding: 10px 18px; }
+  .section-title { font-size: 1.6rem; }
+  .project-preview { font-size: 1.25rem; }
+  .project-section { padding: 18px; }
 }

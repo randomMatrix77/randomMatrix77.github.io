@@ -4,26 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
+  <title>Contact — Mohsin Shaikh, AI Engineer</title>
+  <meta name="description" content="Get in touch with Mohsin Shaikh, AI Engineer: email, LinkedIn and GitHub.">
+  <meta name="author" content="Mohsin Shaikh">
+  <link rel="canonical" href="https://randommatrix77.github.io/contact.html">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mohsin Shaikh">
+  <meta property="og:title" content="Contact — Mohsin Shaikh, AI Engineer">
+  <meta property="og:description" content="Production LLM systems: agents, RAG, realtime voice, evaluation and guardrails for regulated industries.">
+  <meta property="og:url" content="https://randommatrix77.github.io/contact.html">
+  <meta property="og:image" content="https://randommatrix77.github.io/assets/Corrected_stamp.jpg">
+  <meta property="og:image:alt" content="Portrait of Mohsin Shaikh">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contact — Mohsin Shaikh, AI Engineer">
+  <meta name="twitter:description" content="Production LLM systems: agents, RAG, realtime voice, evaluation and guardrails for regulated industries.">
+  <meta name="twitter:image" content="https://randommatrix77.github.io/assets/Corrected_stamp.jpg">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="particles-js"></div>
 
-  
-  <div id="particles-js">
-  </div>
-
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#">Portfolio</a>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Main">
+    <a class="navbar-brand" href="index.html">Mohsin Shaikh</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto ms-auto">
         <li class="nav-item">
           <a class="nav-link" href="index.html">Home</a>
         </li>
@@ -40,32 +62,57 @@
     </div>
   </nav>
 
-  <section id="home" class="py-5">
-    <div class="hero-text-mod">
-      <h2 class="text-light">Contact Me</h2>
-      <form>
-        <div class="form-group">
-          <label for="name" class="text-light">Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Enter your name">
+  <main id="main" class="page">
+    <section class="contact-wrap">
+      <div class="contact-card">
+        <h1 class="section-title">Contact Me</h1>
+        <p class="section-sub mx-auto mb-2">Building something with LLMs, retrieval or voice agents? Send me a message or
+          reach me directly.</p>
+        <p class="mb-0"><a href="mailto:shaikh.mohsin@protonmail.com">shaikh.mohsin@protonmail.com</a></p>
+        <div class="social-links mt-2">
+          <a href="https://www.linkedin.com/in/mohsin-shaikh-123266158" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+          <a href="https://github.com/randomMatrix77" aria-label="GitHub"><i class="bi bi-github" aria-hidden="true"></i></a>
+          <a href="mailto:shaikh.mohsin@protonmail.com" aria-label="Email"><i class="bi bi-envelope" aria-hidden="true"></i></a>
         </div>
-        <div class="form-group">
-          <label for="email" class="text-light">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter your email">
-        </div>
-        <div class="form-group">
-          <label for="message" class="text-light">Message</label>
-          <textarea class="form-control" id="message" rows="5" placeholder="Enter your message"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+
+        <form id="contact-form" class="glass-card">
+          <div class="form-group mb-3">
+            <label for="name" class="text-light">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" autocomplete="name" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="email" class="text-light">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autocomplete="email">
+          </div>
+          <div class="form-group mb-3">
+            <label for="message" class="text-light">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <p class="small mt-3 mb-0">Submitting opens your email app with the message filled in.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/mohsin-shaikh-123266158" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+      <a href="https://github.com/randomMatrix77" aria-label="GitHub"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <a href="mailto:shaikh.mohsin@protonmail.com" aria-label="Email"><i class="bi bi-envelope" aria-hidden="true"></i></a>
     </div>
-  </section>
+    <p class="mb-0">© <span data-year>2026</span> Mohsin Shaikh · Built with plain HTML/CSS/JS
+      <!-- TODO: Impressum link goes here, e.g. · <a href="impressum.html">Impressum</a> -->
+    </p>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="js/background.js"></script>
   <script src="js/demo.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="js/site.js"></script>
 
 </body>
 
